@@ -13,21 +13,21 @@ namespace newmanJapanese.Controllers
     {
         [HttpPost]
         [Route("[action]")]
-        public IActionResult register(string userId,string courseId)
+        public IActionResult register(string userId, string courseId)
         {
             try
             {
-                
+
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-              
+
                 string JoinCourse = "insert into usercourses (userId,courseId,totalLearned,lastLearn) values (@userId,@courseId,@totalLearned,@lastLearn)";
                 var parameters = new DynamicParameters();
                 parameters.Add("@userId", userId);
                 parameters.Add("@courseId", courseId);
-                parameters.Add("@totalLearned",  1);
+                parameters.Add("@totalLearned", 1);
                 parameters.Add("@lastLearn", DateTime.Now);
-                var rowNumbereffect = mySQLconnection.Execute(JoinCourse,parameters);
-                if (rowNumbereffect>0)
+                var rowNumbereffect = mySQLconnection.Execute(JoinCourse, parameters);
+                if (rowNumbereffect > 0)
                 {
                     return Ok("Join course success");
                 }
@@ -54,23 +54,17 @@ namespace newmanJapanese.Controllers
 
 
         [HttpGet]
-        [Route("{userId}")]
-        public IActionResult Getcourse(string userId)
+        [Route("{user_Id}")]
+        public IActionResult Getcourse(string user_Id)
         {
             try
             {
-                
+
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getCourse = "select courses.courseId as courseId,courses.name as name,category,level,rating,totalUserLearned from courses,usercourses,users where courses.courseId =usercourses.courseId AND users.userId=usercourses.userId AND users.userId='" + userId + "'";
+                string getCourse = "select  courseName,level,category,totalUserLearned,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "'";
                 IEnumerable<Course> connectDB = mySQLconnection.Query<Course>(getCourse);
-                foreach (var tempI in connectDB)
-                {   
-                    string getTotalWord = "select count(words.wordId) as totalWord from words,courses where words.courseId=courses.courseId AND courses.courseId='" + tempI.courseId + "'";
-                    tempI.totalWord = mySQLconnection.QueryFirstOrDefault<int>(getTotalWord);
-                    string getTotalWordLearned = "SELECT COUNT(wordId) as totalWordLearned from (select userwords.wordId from userwords, words, courses where userwords.wordId = words.wordId AND words.courseId = courses.courseId AND words.courseId = '" + tempI.courseId + "' AND userId = '" + userId + "') as new";
-                    tempI.totalWordLearned = mySQLconnection.QueryFirstOrDefault<int>(getTotalWordLearned);
-                }
-                if (connectDB.First<Course>()!=null)
+
+                if (connectDB.First<Course>() != null)
                 {
                     return Ok(connectDB);
                 }
@@ -94,19 +88,75 @@ namespace newmanJapanese.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
 
         }
-        [HttpGet]
-        [Route("word/{courseId}")]
-        public IActionResult GetWordofCourse(string courseId)
+
+        [HttpPost]
+        [Route("{user_Id}")]
+
+        public IActionResult createCourse(String user_Id, [FromBody] CourseCreate courseItem)
         {
             try
             {
-                
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                var getWordCourse = "Select wordId,kanji,cvword,hirakata,mean,example from courses,words where   words.courseId=courses.courseId  And words.courseId='" + courseId + "'";
-                var Allword = mySQLconnection.Query<Word>(getWordCourse);
-                if (Allword.First<Word>() != null)
+                Guid courseId = new Guid();
+                String id = courseId.ToString();
+                String name = courseItem.name;
+                String level = courseItem.level;
+                String category = courseItem.category;
+                var query = "Insert into courses (courseId,category,level,courseName) value (@courseId,@category,@level,@courseName)";
+                var parameters = new DynamicParameters();
+                parameters.Add("@courseId", id);
+                parameters.Add("@category", category);
+                parameters.Add("@level", level);
+                parameters.Add("@courseName", name);
+                int rowefec = mySQLconnection.Execute(query);
+                var query2 = "Insert into usercourses (courseId,userId,totalLearned,lastLearn) value (@courseId,@userId,@totalLearned,@lastLearn)";
+                var parameters2 = new DynamicParameters();
+                parameters2.Add("@courseId", id);
+                parameters2.Add("@userId", user_Id);
+                parameters2.Add("@totalLearned", 0);
+                parameters2.Add("@courseName", DateTime.Now);
+                int rowefec2 = mySQLconnection.Execute(query2);
+                if (rowefec > 0 && rowefec2 > 0)
                 {
-                    return Ok(Allword);
+                    return Ok("Create course success");
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
+
+
+
+
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+
+        }
+        [HttpDelete]
+        [Route("{course_Id}")]
+
+        public IActionResult deleteCourse(String course_Id)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "Delete from courses where courseId='" + course_Id + "'";
+                int rowefec = mySQLconnection.Execute(query);
+                if (rowefec > 0)
+                {
+                    return Ok("Delete success");
                 }
                 else
                 {
@@ -127,11 +177,41 @@ namespace newmanJapanese.Controllers
             }
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
 
+
         }
-        
+        [HttpPost]
+        [Route("join/{course_Id}")]
 
+        public IActionResult getCourseinfor(string course_Id)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "select wordHiragana,wordMean,wordKanji,Example from courses,words,coursedetail where courses.courseId=coursedetail.courseId AND words.wordId=coursedetail.wordId AND courses.courseId='" + course_Id + "'";
+                IEnumerable<CourseInfor> connectDB = mySQLconnection.Query<CourseInfor>(query);
+                if (connectDB.First<CourseInfor>() != null)
+                {
+                    return Ok(connectDB);
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
 
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+        }
     }
-
-
 }

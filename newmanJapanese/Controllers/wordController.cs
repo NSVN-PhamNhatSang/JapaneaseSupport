@@ -1,29 +1,30 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace JLearning.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class notewordController : Controller
+    public class wordController : Controller
     {
         [HttpGet]
-        [Route("{notebookId}")]
-        public IActionResult GetListnoteWord(Guid notebookId)
+        [Route("{userId}")]
+        public IActionResult GetListnoteBook(Guid userId)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getListnoteWord = "Select notewordId,notebookId,kanji,cvword,hirakata,mean,example from notewords where notebookId='" + notebookId + "'";
-                var ListnoteWords = mySQLconnection.Query(getListnoteWord);
-                if (ListnoteWords.First() != null)
+                string getListnotebook = "Select notebookId,userId,name,totalWord,createAt,lastLearnAt from notebooks where userId='" + userId + "'";
+                var ListnoteBook = mySQLconnection.Query(getListnotebook);
+                if (ListnoteBook.First() != null)
                 {
-                    return Ok(ListnoteWords);
+                    return Ok(ListnoteBook);
                 }
                 else
                 {
-                    return BadRequest("You got some wrong or don't have any notewords");
+                    return BadRequest("You got some wrong or don't have any notebook");
                 }
             }
             catch (MySqlException mysqlexception)
@@ -40,31 +41,31 @@ namespace JLearning.Controllers
             }
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
+
         [HttpPost]
-        [Route("{notebookId}")]
-        public IActionResult InsertnoteWord(Guid notebookId,string kanji,string cvword,string hirakata,string mean,string example)
+        [Route("{userId}")]
+        public IActionResult CreateNotebook(Guid userId, string name, int totalWord)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string insertNoteword = "insert into notewords (notewordId,notebookId,kanji,cvword,hirakata,mean,example) values (@notewordId,@notebookId,@kanji,@cvword,@hirakata,@mean,@example)";
-                var parameters = new DynamicParameters();
+                string InsertnoteBook = "insert into notebooks (notebookId,userId,name,totalWord,createAt,lastLearnAt) values (@notebookId,@userId,@name,@totalWord,@createAt,@lastLearnAt) ";
                 Guid Id = Guid.NewGuid();
-                parameters.Add("@notewordId", Id);
-                parameters.Add("@notebookId",notebookId);
-                parameters.Add("@kanji", kanji);
-                parameters.Add("@cvword", cvword);
-                parameters.Add("@hirakata", hirakata);
-                parameters.Add("@mean", mean);
-                parameters.Add("@example", example);
-                var numberRowEffect= mySQLconnection.Execute(insertNoteword,parameters);
-                if (numberRowEffect>0)
+                var parameters = new DynamicParameters();
+                parameters.Add("@notebookId", Id);
+                parameters.Add("@userId", userId);
+                parameters.Add("@name", name);
+                parameters.Add("@totalWord", totalWord);
+                parameters.Add("@createAt", DateTime.Now);
+                parameters.Add("@lastLearnAt", DateTime.Now);
+                int numberRowAffect = mySQLconnection.Execute(InsertnoteBook, parameters);
+                if (numberRowAffect > 0)
                 {
                     return Ok("Created");
                 }
                 else
                 {
-                    return BadRequest("You got some wrong ");
+                    return BadRequest("You got some wrong");
                 }
             }
             catch (MySqlException mysqlexception)
@@ -82,22 +83,22 @@ namespace JLearning.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
         [HttpDelete]
-        [Route("{notewordId}")]
-        public IActionResult RewriteWord(Guid notewordId)
+        [Route("{notebookId}")]
+        public IActionResult DeleteNotebook(Guid notebookId)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string deleteWord = "delete from notewords where notewordId='"+notewordId+"'";
-               
-                var numberRowEffect = mySQLconnection.Execute(deleteWord);
-                if (numberRowEffect > 0)
+                string DeletenoteBook = " delete from notebooks where notebookId='" + notebookId + "'";
+
+                int numberRowAffect = mySQLconnection.Execute(DeletenoteBook);
+                if (numberRowAffect > 0)
                 {
                     return Ok("Deleted");
                 }
                 else
                 {
-                    return BadRequest("You got some wrong ");
+                    return BadRequest("You got some wrong");
                 }
             }
             catch (MySqlException mysqlexception)
@@ -115,22 +116,22 @@ namespace JLearning.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
         [HttpPut]
-        [Route("{notewordId}")]
-        public IActionResult RewriteWord(Guid notewordId, string kanji, string cvword, string hirakata, string mean, string example)
+        [Route("{notebookId}")]
+        public IActionResult UpdateNotebook(Guid notebookId, string name)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string updateWord = "update notewords set kanji='"+kanji+"',cvword='"+cvword+"',hirakata='"+hirakata+"',mean='"+mean+"',example='"+example+"' where notewordId='"+notewordId+"'";
-                
-                var numberRowEffect = mySQLconnection.Execute(updateWord);
-                if (numberRowEffect > 0)
+                string UpdatenoteBook = " update notebooks set name='" + name + "' where notebookId='" + notebookId + "'";
+
+                int numberRowAffect = mySQLconnection.Execute(UpdatenoteBook);
+                if (numberRowAffect > 0)
                 {
                     return Ok("Updated");
                 }
                 else
                 {
-                    return BadRequest("You got some wrong ");
+                    return BadRequest("You got some wrong");
                 }
             }
             catch (MySqlException mysqlexception)
@@ -147,6 +148,39 @@ namespace JLearning.Controllers
             }
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
+        [HttpPut]
+        [Route("{word_Id}/status")]
+        public IActionResult rateWord(String word_Id,int status)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "update words set wordStatus="+status+" where wordId='"+word_Id+"'";
+                int rowefec = mySQLconnection.Execute(query);
+                if (rowefec > 0)
+                {
+                    return Ok(status);
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
 
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+
+        }
     }
 }
