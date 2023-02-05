@@ -61,3 +61,6 @@ C:\Users\dell\source\repos\newmanJapanese\newmanJapanese\bin\Debug\net6.0\Micros
 C:\Users\dell\source\repos\newmanJapanese\newmanJapanese\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\dell\source\repos\newmanJapanese\newmanJapanese\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\dell\source\repos\newmanJapanese\newmanJapanese\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\christian.ta\CODE FOR LIFE\Database\JapaneaseSupport\newmanJapanese\obj\Debug\net6.0\JLearning.dll
+C:\Users\christian.ta\CODE FOR LIFE\Database\JapaneaseSupport\newmanJapanese\obj\Debug\net6.0\refint\JLearning.dll
+C:\Users\christian.ta\CODE FOR LIFE\Database\JapaneaseSupport\newmanJapanese\obj\Debug\net6.0\JLearning.pdb

@@ -7,7 +7,7 @@ namespace JLearning.Extensions
     public static class AddJWTServicesExtensions
     {
         public static void AddJWTServices(this IServiceCollection Services, IConfiguration Configuration)
-        {
+        {h
             // Add Jwt Setings
             var bindJwtSettings = new JwtSettings();
             Configuration.Bind("JsonWebTokenKeys", bindJwtSettings);
