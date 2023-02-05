@@ -61,7 +61,7 @@ namespace newmanJapanese.Controllers
             {
 
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getCourse = "select  courseName,level,category,totalUserLearned,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "'";
+                string getCourse = "select  courseName,level,category,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "'";
                 IEnumerable<Course> connectDB = mySQLconnection.Query<Course>(getCourse);
 
                 if (connectDB.First<Course>() != null)
@@ -92,7 +92,7 @@ namespace newmanJapanese.Controllers
         [HttpPost]
         [Route("{user_Id}")]
 
-        public IActionResult createCourse(String user_Id, [FromBody] CourseCreate courseItem)
+        public IActionResult createCourse(string user_Id, [FromBody] CourseCreate courseItem)
         {
             try
             {
@@ -108,14 +108,14 @@ namespace newmanJapanese.Controllers
                 parameters.Add("@category", category);
                 parameters.Add("@level", level);
                 parameters.Add("@courseName", name);
-                int rowefec = mySQLconnection.Execute(query);
+                int rowefec = mySQLconnection.Execute(query,parameters);
                 var query2 = "Insert into usercourses (courseId,userId,totalLearned,lastLearn) value (@courseId,@userId,@totalLearned,@lastLearn)";
                 var parameters2 = new DynamicParameters();
                 parameters2.Add("@courseId", id);
                 parameters2.Add("@userId", user_Id);
                 parameters2.Add("@totalLearned", 0);
                 parameters2.Add("@courseName", DateTime.Now);
-                int rowefec2 = mySQLconnection.Execute(query2);
+                int rowefec2 = mySQLconnection.Execute(query2,parameters2);
                 if (rowefec > 0 && rowefec2 > 0)
                 {
                     return Ok("Create course success");
@@ -147,7 +147,7 @@ namespace newmanJapanese.Controllers
         [HttpDelete]
         [Route("{course_Id}")]
 
-        public IActionResult deleteCourse(String course_Id)
+        public IActionResult deleteCourse(string course_Id)
         {
             try
             {
