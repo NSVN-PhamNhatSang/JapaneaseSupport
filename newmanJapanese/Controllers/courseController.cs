@@ -64,7 +64,7 @@ namespace newmanJapanese.Controllers
             {
 
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getCourse = "select  courseName,level,category,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "'";
+                string getCourse = "select  courses.courseId,courseName,level,category,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "' group by courses.courseId";
                 IEnumerable<Course> connectDB = mySQLconnection.Query<Course>(getCourse);
 
                 if (connectDB.First<Course>() != null)
@@ -100,8 +100,12 @@ namespace newmanJapanese.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                Guid courseId = new Guid();
-                string id = courseId.ToString();
+                Random random = new Random();
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                int length = 10;
+                string id = new string(Enumerable.Repeat(chars, length)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
+               
                 string name = courseItem.name;
                 string level = courseItem.level;
                 string category = courseItem.category;
@@ -112,12 +116,12 @@ namespace newmanJapanese.Controllers
                 parameters.Add("@level", level);
                 parameters.Add("@courseName", name);
                 int rowefec = mySQLconnection.Execute(query,parameters);
-                var query2 = "Insert into usercourses (courseId,userId,totalLearned,lastLearn) value (@courseId,@userId,@totalLearned,@lastLearn)";
+                var query2 = "Insert into usercourses (courseId,userId) value (@courseId,@userId)";
                 var parameters2 = new DynamicParameters();
                 parameters2.Add("@courseId", id);
                 parameters2.Add("@userId", user_Id);
-                parameters2.Add("@totalLearned", 0);
-                parameters2.Add("@courseName", DateTime.Now);
+                //parameters2.Add("@totalLearned", 0);
+                //parameters2.Add("@courseName", DateTime.Now);
                 int rowefec2 = mySQLconnection.Execute(query2,parameters2);
                 if (rowefec > 0 && rowefec2 > 0)
                 {
@@ -190,7 +194,7 @@ namespace newmanJapanese.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "select wordHiragana,wordMean,wordKanji,Example from courses,words,coursedetail where courses.courseId=coursedetail.courseId AND words.wordId=coursedetail.wordId AND courses.courseId='" + course_Id + "'";
+                string query = "select words.wordId,wordStatus,wordHiragana,wordMean,wordKanji,Example from courses,words,coursedetail where courses.courseId=coursedetail.courseId AND words.wordId=coursedetail.wordId AND courses.courseId='" + course_Id + "'";
                 IEnumerable<CourseInfor> connectDB = mySQLconnection.Query<CourseInfor>(query);
                 if (connectDB.First<CourseInfor>() != null)
                 {
