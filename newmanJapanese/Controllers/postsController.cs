@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using System.Reflection.Metadata.Ecma335;
@@ -7,16 +8,17 @@ namespace JLearning.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class postsController : Controller
-    {
+    { 
         [HttpGet]
-        [Route("{notebookId}")]
-        public IActionResult GetListnoteWord(Guid notebookId)
+        [Route("{user_id}")]
+        public IActionResult getListPosts(string user_id)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getListnoteWord = "Select notewordId,notebookId,kanji,cvword,hirakata,mean,example from notewords where notebookId='" + notebookId + "'";
+                string getListnoteWord = "Select postId,postContent,courseId,postImage from posts where userId='" + user_id + "'";
                 var ListnoteWords = mySQLconnection.Query(getListnoteWord);
                 if (ListnoteWords.First() != null)
                 {
@@ -24,7 +26,7 @@ namespace JLearning.Controllers
                 }
                 else
                 {
-                    return BadRequest("You got some wrong or don't have any notewords");
+                    return BadRequest("Something wrong");
                 }
             }
             catch (MySqlException mysqlexception)
@@ -293,5 +295,53 @@ namespace JLearning.Controllers
 
 
         }
+        [HttpPost]
+        [Route("{user_id}/{post_id}")]
+
+        public IActionResult Addcomment(string user_id,string post_id, [FromBody] string comment)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "insert into comment (commentId,postId,userId,commentText) values (@commentId,@postId,@userId,@commentText)";
+                var parameters = new DynamicParameters();
+                Guid id = new Guid();
+                string commentId = id.ToString();
+                parameters.Add("@commentId", commentId);
+                parameters.Add("@postId",post_id );
+                parameters.Add("@userId", user_id);
+                parameters.Add("@commentText",comment);
+                int rowefec=mySQLconnection.Execute(query, parameters);
+                if (rowefec > 0)
+                {
+                    return Ok("Add success");
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
+                
+
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+
+        }
+
+
+
+
+
     }
 }

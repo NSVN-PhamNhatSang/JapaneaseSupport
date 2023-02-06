@@ -2,12 +2,11 @@
 {
     public class Word
     {
-        public Guid wordId { get; set; }
-        public string kanji { get; set; }
-        public string cvword { get; set; }
-        public string hirakata { get; set; }
-        public string mean { get; set; }
-        public string example { get; set; }
-      
+
+        public string word_hiragana;
+        public string word_meaning;
+        public string example;
+        public int word_status;
+
     }
 }

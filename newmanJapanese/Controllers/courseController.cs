@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using System;
+using System.Reflection.Emit;
+using System.Xml.Linq;
+
 namespace newmanJapanese.Controllers
 {
     [Route("api/[controller]")]
@@ -98,10 +101,10 @@ namespace newmanJapanese.Controllers
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
                 Guid courseId = new Guid();
-                String id = courseId.ToString();
-                String name = courseItem.name;
-                String level = courseItem.level;
-                String category = courseItem.category;
+                string id = courseId.ToString();
+                string name = courseItem.name;
+                string level = courseItem.level;
+                string category = courseItem.category;
                 var query = "Insert into courses (courseId,category,level,courseName) value (@courseId,@category,@level,@courseName)";
                 var parameters = new DynamicParameters();
                 parameters.Add("@courseId", id);
@@ -197,6 +200,55 @@ namespace newmanJapanese.Controllers
                 {
                     return BadRequest("Something wrong");
                 }
+
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+        }
+
+        [HttpPost]
+        [Route("create/{course_id}")]
+        public IActionResult createWord(string course_id, [FromBody] Word word)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                Guid courseId = new Guid();
+                string id = courseId.ToString();
+                
+                string query = "insert into words (wordId,wordStatus,wordMean,wordHiragana,example) value (@wordId,@wordStatus,@wordMean,@wordHiragana,@example) ";
+                var parameters = new DynamicParameters();
+                parameters.Add("@wordId", id);
+                parameters.Add("@wordStatus", word.word_status);
+                parameters.Add("@wordMean", word.word_meaning);
+                parameters.Add("@wordHiragana", word.word_hiragana);
+                parameters.Add("@example", word.example);
+                int rowefe = mySQLconnection.Execute(query, parameters);
+                string query2 = "insert into coursedetail (courseId,wordId) value (@courseId,@wordId) ";
+                var parameters2 = new DynamicParameters();
+                parameters2.Add("@wordId", id);
+                parameters2.Add("@courseId", course_id);
+                int rowef2 = mySQLconnection.Execute(query2, parameters2);
+                if (rowef2 > 0 && rowefe > 0)
+                {
+                    return Ok("Add success");
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
+
 
             }
             catch (MySqlException mysqlexception)

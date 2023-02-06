@@ -15,9 +15,9 @@ namespace newmanJapanese.Controllers
         {
             try
             {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.newDbname);
-                var getuserInfor = mySQLconnection.Query<User>("Select userId,username,userrating from users where userId='12dwqd'");
-                if (getuserInfor != null)
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                var getuserInfor = mySQLconnection.Query<User>("Select username,userlevel,usercategory from users where userId='"+userId+"'");
+                if (getuserInfor.First<User>() != null)
                 {
                     return Ok(getuserInfor);
                 }
@@ -49,8 +49,8 @@ namespace newmanJapanese.Controllers
         {
             try
             {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.newDbname);
-                var numberRowEffect = mySQLconnection.Execute("update users set userLevel="+infor.level+",category='"+infor.category+"' where userId='"+userId+"'");
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                var numberRowEffect = mySQLconnection.Execute("update users set userLevel="+infor.level+",usercategory='"+infor.category+"' where userId='"+userId+"'");
                 if (numberRowEffect >0)
                 {
 

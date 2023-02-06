@@ -27,18 +27,18 @@ namespace JLearning.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserLogins userLogins)
+        public IActionResult Login([FromBody] UserLogins userLogins)
         {
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getAllUser = "Select * from users";
-                IEnumerable<Users> logins = mySQLconnection.Query<Users>(getAllUser);
+                string getAllUser = "Select userName,userPassword from users";
+                IEnumerable<UserLogins> logins = mySQLconnection.Query<UserLogins>(getAllUser);
 
                 var Token = new UserTokens();
                 var Valid = logins.Any(x =>
-                    x.username.Equals(userLogins.UserName, StringComparison.Ordinal)
-                   && x.password.Equals(userLogins.Password, StringComparison.Ordinal)
+                    x.UserName.Equals(userLogins.UserName, StringComparison.Ordinal)
+                   && x.Password.Equals(userLogins.Password, StringComparison.Ordinal)
                 );
                 if (Valid)
                 {
