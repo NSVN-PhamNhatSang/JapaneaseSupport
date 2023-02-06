@@ -194,7 +194,7 @@ namespace newmanJapanese.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "select words.wordId,wordStatus,wordHiragana,wordMean,wordKanji,Example from courses,words,coursedetail where courses.courseId=coursedetail.courseId AND words.wordId=coursedetail.wordId AND courses.courseId='" + course_Id + "'";
+                string query = "select words.wordId,wordStatus,wordHiragana,wordMean,wordKanji,Example from courses,words,coursedetail where courses.courseId=coursedetail.courseId AND words.wordId=coursedetail.wordId AND courses.courseId='" + course_Id + "' group by words.wordId";
                 IEnumerable<CourseInfor> connectDB = mySQLconnection.Query<CourseInfor>(query);
                 if (connectDB.First<CourseInfor>() != null)
                 {
