@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dell\\source\\repos\\newmanJapanese\\newmanJapanese\\JLearning.csproj": {}
+    "C:\\LTW\\JapaneaseSupport\\newmanJapanese\\JLearning.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dell\\source\\repos\\newmanJapanese\\newmanJapanese\\JLearning.csproj": {
+    "C:\\LTW\\JapaneaseSupport\\newmanJapanese\\JLearning.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dell\\source\\repos\\newmanJapanese\\newmanJapanese\\JLearning.csproj",
+        "projectUniqueName": "C:\\LTW\\JapaneaseSupport\\newmanJapanese\\JLearning.csproj",
         "projectName": "JLearning",
-        "projectPath": "C:\\Users\\dell\\source\\repos\\newmanJapanese\\newmanJapanese\\JLearning.csproj",
-        "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dell\\source\\repos\\newmanJapanese\\newmanJapanese\\obj\\",
+        "projectPath": "C:\\LTW\\JapaneaseSupport\\newmanJapanese\\JLearning.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\LTW\\JapaneaseSupport\\newmanJapanese\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

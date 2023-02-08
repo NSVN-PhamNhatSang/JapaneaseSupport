@@ -186,7 +186,7 @@ namespace newmanJapanese.Controllers
 
 
         }
-        [HttpPost]
+        [HttpGet]
         [Route("join/{course_Id}")]
 
         public IActionResult getCourseinfor(string course_Id)

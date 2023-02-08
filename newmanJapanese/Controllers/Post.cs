@@ -2,13 +2,17 @@
 {
     public class Post
     {
-        public string post_image;                               
+        public string postId { get; set; }
 
-        public string post_content;
+        public string postImage { get; set; }
 
-        public string course_id;
+        public string postContent { get; set; }
 
-        public string course_name;
+        public string courseId { get; set; }
+
+        public string courseName { get; set; }
+
+        public string userName { get; set; }
 
     }
 }
