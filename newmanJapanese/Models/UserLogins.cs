@@ -5,13 +5,13 @@ namespace GoodFood.api.Models
     public class UserLogins
     {
         [Required]
-        public string UserName
+        public string userName
         {
             get;
             set;
         }
         [Required]
-        public string Password
+        public string userPassword
         {
             get;
             set;

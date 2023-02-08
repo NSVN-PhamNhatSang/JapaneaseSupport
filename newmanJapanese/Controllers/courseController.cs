@@ -14,46 +14,7 @@ namespace newmanJapanese.Controllers
     [ApiController]
     public class courseController : Controller
     {
-        [HttpPost]
-        [Route("[action]")]
-        public IActionResult register(string userId, string courseId)
-        {
-            try
-            {
-
-                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-
-                string JoinCourse = "insert into usercourses (userId,courseId,totalLearned,lastLearn) values (@userId,@courseId,@totalLearned,@lastLearn)";
-                var parameters = new DynamicParameters();
-                parameters.Add("@userId", userId);
-                parameters.Add("@courseId", courseId);
-                parameters.Add("@totalLearned", 1);
-                parameters.Add("@lastLearn", DateTime.Now);
-                var rowNumbereffect = mySQLconnection.Execute(JoinCourse, parameters);
-                if (rowNumbereffect > 0)
-                {
-                    return Ok("Join course success");
-                }
-                else
-                {
-                    return BadRequest("You get some wrong");
-                }
-                return Ok();
-            }
-            catch (MySqlException mysqlexception)
-            {
-                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
-                }
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            catch (Exception)
-            {
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, "e001");
-        }
+        
 
 
         [HttpGet]
@@ -64,7 +25,7 @@ namespace newmanJapanese.Controllers
             {
 
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getCourse = "select  courses.courseId,courseName,level,category,courseStatus from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='" + user_Id + "' group by courses.courseId";
+                string getCourse = "select  courses.courseId,courseName,level,category from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='"+ user_Id +"' group by courses.courseId";
                 IEnumerable<Course> connectDB = mySQLconnection.Query<Course>(getCourse);
 
                 if (connectDB.First<Course>() != null)

@@ -37,14 +37,14 @@ namespace JLearning.Controllers
 
                 var Token = new UserTokens();
                 var Valid = logins.Any(x =>
-                    x.UserName.Equals(userLogins.UserName, StringComparison.Ordinal)
-                   && x.Password.Equals(userLogins.Password, StringComparison.Ordinal)
+                    x.userName.Equals(userLogins.userName, StringComparison.Ordinal)
+                   && x.userPassword.Equals(userLogins.userPassword, StringComparison.Ordinal)
                 );
                 if (Valid)
                 {
                     var claims = new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, userLogins.UserName),
+                        new Claim(JwtRegisteredClaimNames.Sub, userLogins.userName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
