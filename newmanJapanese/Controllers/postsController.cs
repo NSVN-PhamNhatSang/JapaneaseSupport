@@ -259,7 +259,7 @@ namespace JLearning.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "select postId,postImage,postContent,posts.courseId,courseName,userName from posts,users,courses where users.userId=posts.userId and posts.courseId=courses.courseId ";
+                string query = "select postId,postImage,postContent,posts.courseId,courseName,userName,rating from posts,users,courses where users.userId=posts.userId and posts.courseId=courses.courseId ";
                 var connectDb = mySQLconnection.Query(query);
                 if (connectDb.First() != null)
                 {

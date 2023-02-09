@@ -32,7 +32,7 @@ namespace JLearning.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getAllUser = "Select userName,userPassword from users";
+                string getAllUser = "Select userId,userName,userPassword from users";
                 IEnumerable<UserLogins> logins = mySQLconnection.Query<UserLogins>(getAllUser);
 
                 var Token = new UserTokens();
@@ -44,8 +44,8 @@ namespace JLearning.Controllers
                 {
                     var claims = new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, userLogins.userName),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Sub, userLogins.userId),
+                        new Claim(JwtRegisteredClaimNames.Jti, userLogins.userName),
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Key").Value));
