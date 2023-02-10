@@ -40,6 +40,39 @@ namespace newmanJapanese.Controllers
             }
             return StatusCode(StatusCodes.Status400BadRequest, "e004");
         }
+        [HttpGet]
+        [Route("")]
+
+        public IActionResult getAllUsers()
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                var getuserInfor = mySQLconnection.Query("Select * from users ");
+                if (getuserInfor.First() != null)
+                {
+                    return Ok(getuserInfor);
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e004");
+
+        }
 
 
 
