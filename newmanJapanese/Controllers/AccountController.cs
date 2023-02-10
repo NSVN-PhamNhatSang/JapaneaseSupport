@@ -33,7 +33,7 @@ namespace JLearning.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getAllUser = "Select userId,userName,userPassword from users";
+                string getAllUser = "Select userId,userName,userPassword,roll from users";
                 IEnumerable<Users> logins = mySQLconnection.Query<Users>(getAllUser);
                 
                 var Token = new UserTokens();
@@ -47,10 +47,10 @@ namespace JLearning.Controllers
         x.userName.Equals(userLogins.userName, StringComparison.Ordinal)
         && x.userPassword.Equals(userLogins.userPassword, StringComparison.Ordinal)
     );
-                    var claims = new []
-                    {
+                    var claims = new[]
+                    {   new Claim(JwtRegisteredClaimNames.Typ,user?.roll.ToString()),
                         new Claim(JwtRegisteredClaimNames.Sub, user?.userName),
-                        new Claim(JwtRegisteredClaimNames.Jti, user?.userId),
+                        new Claim(JwtRegisteredClaimNames.Sid, user?.userId),
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456"));
@@ -59,7 +59,7 @@ namespace JLearning.Controllers
                        // issuer: "https://localhost:7168",
                        // audience: "https://localhost:7168",
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(1),
+                        expires: DateTime.Now.AddMinutes(20),
                         signingCredentials: creds
                     );
 

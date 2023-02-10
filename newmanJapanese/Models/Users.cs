@@ -14,6 +14,7 @@
             get;
             set;
         }
+        public int roll { get; set; }
        
     }
 }
