@@ -20,7 +20,7 @@ namespace newmanJapanese.Controllers
 
         [HttpGet]
         [Route("{user_Id}")]
-        [Authorize]
+      //  [Authorize]
 
         public IActionResult Getcourse(string user_Id)
         {
@@ -192,16 +192,19 @@ namespace newmanJapanese.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                Guid courseId = new Guid();
-                string id = courseId.ToString();
-                
+                Random random = new Random();
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                int length = 10;
+                string id = new string(Enumerable.Repeat(chars, length)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
+
                 string query = "insert into words (wordId,wordStatus,wordMean,wordHiragana,example) value (@wordId,@wordStatus,@wordMean,@wordHiragana,@example) ";
                 var parameters = new DynamicParameters();
                 parameters.Add("@wordId", id);
-                parameters.Add("@wordStatus", word.word_status);
-                parameters.Add("@wordMean", word.word_meaning);
-                parameters.Add("@wordHiragana", word.word_hiragana);
-                parameters.Add("@example", word.example);
+                parameters.Add("@wordStatus", word.wordStatus);
+                parameters.Add("@wordMean", word.wordMeaning);
+                parameters.Add("@wordHiragana", word.wordHiragana);
+                parameters.Add("@example", word.Example);
                 int rowefe = mySQLconnection.Execute(query, parameters);
                 string query2 = "insert into coursedetail (courseId,wordId) value (@courseId,@wordId) ";
                 var parameters2 = new DynamicParameters();

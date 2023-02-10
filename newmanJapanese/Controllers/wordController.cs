@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using MySqlConnector;
 
 namespace JLearning.Controllers
@@ -17,8 +18,9 @@ namespace JLearning.Controllers
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
                 string query = "update words set wordStatus=" + status + " where wordId='" + word_Id + "'";
+               
                 int rowefec = mySQLconnection.Execute(query);
-                if (rowefec > 0)
+                if (rowefec > 0 )
                 {
                     return Ok(status);
                 }

@@ -56,8 +56,8 @@ namespace JLearning.Controllers
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456"));
                     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                     var token = new JwtSecurityToken(
-                        // issuer: "https://localhost:7168",
-                        // audience: "https://localhost:7168",
+                        issuer: "https://localhost:7168",
+                        audience: "https://localhost:7168",
                         claims: claims,
                         expires: DateTime.Now.AddMinutes(20),
                         signingCredentials: creds

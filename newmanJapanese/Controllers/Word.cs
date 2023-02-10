@@ -3,10 +3,10 @@
     public class Word
     {
 
-        public string word_hiragana;
-        public string word_meaning;
-        public string example;
-        public int word_status;
+        public string wordHiragana { get; set; }
+        public string wordMeaning { get; set; }
+        public string Example   { get; set; }
+        public int wordStatus { get; set; }
 
     }
 }

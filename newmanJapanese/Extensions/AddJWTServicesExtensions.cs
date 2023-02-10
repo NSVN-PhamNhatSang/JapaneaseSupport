@@ -23,7 +23,7 @@ namespace JLearning.Extensions
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = bindJwtSettings.ValidateIssuerSigningKey,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(bindJwtSettings.IssuerSigningKey)),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456")),
                     ValidateIssuer = bindJwtSettings.ValidateIssuer,
                     ValidIssuer = bindJwtSettings.ValidIssuer,
                     ValidateAudience = bindJwtSettings.ValidateAudience,

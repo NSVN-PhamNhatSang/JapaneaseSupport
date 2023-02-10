@@ -205,53 +205,7 @@ namespace JLearning.Controllers
 
 
         }
-        [HttpPost]
-        [Route("{user_id}/{post_id}")]
-
-        public IActionResult Addcomment(string user_id,string post_id, [FromBody] string comment)
-        {
-            try
-            {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "insert into comment (commentId,postId,userId,commentText) values (@commentId,@postId,@userId,@commentText)";
-                var parameters = new DynamicParameters();
-                Random random = new Random();
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                int length = 10;
-                string id = new string(Enumerable.Repeat(chars, length)
-                  .Select(s => s[random.Next(s.Length)]).ToArray());
-                string commentId = id;
-                parameters.Add("@commentId", commentId);
-                parameters.Add("@postId",post_id );
-                parameters.Add("@userId", user_id);
-                parameters.Add("@commentText",comment);
-                int rowefec=mySQLconnection.Execute(query, parameters);
-                if (rowefec > 0)
-                {
-                    return Ok("Add success");
-                }
-                else
-                {
-                    return BadRequest("Something wrong");
-                }
-                
-
-            }
-            catch (MySqlException mysqlexception)
-            {
-                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
-                }
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            catch (Exception)
-            {
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, "e001");
-
-        }
+        
         [HttpGet]
         [Route("")]
         public IActionResult getAllPost()

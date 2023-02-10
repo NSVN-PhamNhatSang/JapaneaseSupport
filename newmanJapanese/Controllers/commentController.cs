@@ -16,7 +16,7 @@ namespace JLearning.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getListnotebook = "Select commentText,userId from comments where postId='" + post_id + "'";
+                string getListnotebook = "Select commentId,commentText,userId from comment where postId='" + post_id + "'";
                 var ListnoteBook = mySQLconnection.Query<Comment>(getListnotebook);
                 if (ListnoteBook.First<Comment>() != null)
                 {
@@ -42,120 +42,15 @@ namespace JLearning.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
 
-        [HttpPost]
-        [Route("{userId}")]
-        public IActionResult CreateNotebook(Guid userId, string name, int totalWord)
-        {
-            try
-            {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string InsertnoteBook = "insert into notebooks (notebookId,userId,name,totalWord,createAt,lastLearnAt) values (@notebookId,@userId,@name,@totalWord,@createAt,@lastLearnAt) ";
-                Guid Id = Guid.NewGuid();
-                var parameters = new DynamicParameters();
-                parameters.Add("@notebookId", Id);
-                parameters.Add("@userId", userId);
-                parameters.Add("@name", name);
-                parameters.Add("@totalWord", totalWord);
-                parameters.Add("@createAt", DateTime.Now);
-                parameters.Add("@lastLearnAt", DateTime.Now);
-                int numberRowAffect = mySQLconnection.Execute(InsertnoteBook, parameters);
-                if (numberRowAffect > 0)
-                {
-                    return Ok("Created");
-                }
-                else
-                {
-                    return BadRequest("You got some wrong");
-                }
-            }
-            catch (MySqlException mysqlexception)
-            {
-                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
-                }
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            catch (Exception)
-            {
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, "e001");
-        }
-        [HttpDelete]
-        [Route("{notebookId}")]
-        public IActionResult DeleteNotebook(Guid notebookId)
-        {
-            try
-            {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string DeletenoteBook = " delete from notebooks where notebookId='" + notebookId + "'";
-
-                int numberRowAffect = mySQLconnection.Execute(DeletenoteBook);
-                if (numberRowAffect > 0)
-                {
-                    return Ok("Deleted");
-                }
-                else
-                {
-                    return BadRequest("You got some wrong");
-                }
-            }
-            catch (MySqlException mysqlexception)
-            {
-                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
-                }
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            catch (Exception)
-            {
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, "e001");
-        }
+        
         [HttpPut]
-        [Route("{notebookId}")]
-        public IActionResult UpdateNotebook(Guid notebookId, string name)
-        {
+        [Route("{comment_id}")]
+        public IActionResult rateWord(string comment_id, [FromBody] string comment)
+        { 
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string UpdatenoteBook = " update notebooks set name='" + name + "' where notebookId='" + notebookId + "'";
-
-                int numberRowAffect = mySQLconnection.Execute(UpdatenoteBook);
-                if (numberRowAffect > 0)
-                {
-                    return Ok("Updated");
-                }
-                else
-                {
-                    return BadRequest("You got some wrong");
-                }
-            }
-            catch (MySqlException mysqlexception)
-            {
-                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
-                }
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            catch (Exception)
-            {
-                StatusCode(StatusCodes.Status400BadRequest, "e001");
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, "e001");
-        }
-        [HttpPut]
-        [Route("{comment_id}/{post_id}")]
-        public IActionResult rateWord(string comment_id, string post_id, [FromBody] string comment)
-        {
-            try
-            {
-                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "update comment set commentText='"+comment+"' where commentId='"+comment_id+"' and postId='"+post_id+"'";
+                string query = "update comment set commentText='"+comment+"' where commentId='"+comment_id+"'";
                 int rowefe=mySQLconnection.Execute(query);
                 if(rowefe > 0)
                 {
@@ -165,6 +60,53 @@ namespace JLearning.Controllers
                 {
                     return BadRequest("Something wrong");
                 }
+
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+
+        }
+        [HttpPost]
+        [Route("{user_id}/{post_id}")]
+
+        public IActionResult Addcomment(string user_id, string post_id, [FromBody] string comment)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "insert into comment (commentId,postId,userId,commentText) values (@commentId,@postId,@userId,@commentText)";
+                var parameters = new DynamicParameters();
+                Random random = new Random();
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                int length = 10;
+                string id = new string(Enumerable.Repeat(chars, length)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
+                string commentId = id;
+                parameters.Add("@commentId", commentId);
+                parameters.Add("@postId", post_id);
+                parameters.Add("@userId", user_id);
+                parameters.Add("@commentText", comment);
+                int rowefec = mySQLconnection.Execute(query, parameters);
+                if (rowefec > 0)
+                {
+                    return Ok("Add success");
+                }
+                else
+                {
+                    return BadRequest("Something wrong");
+                }
+
 
             }
             catch (MySqlException mysqlexception)

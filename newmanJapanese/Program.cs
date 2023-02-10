@@ -44,7 +44,23 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
-
+/*builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456")),
+        ValidateIssuer = false,
+        ValidateAudience = false
+        // ClockSkew = TimeSpan.FromDays(1),
+    };
+});*/
 
 var app = builder.Build();
 
