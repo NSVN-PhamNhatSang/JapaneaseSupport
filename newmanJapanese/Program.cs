@@ -1,8 +1,12 @@
 using JLearning.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Session;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
-
+//builder.Services.AddSession();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -41,6 +45,7 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,5 +58,6 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
+//app.UseSession();
 
 app.Run();

@@ -7,7 +7,7 @@
         public string Name { get; set; }
         public TimeSpan Validaty { get; set; }
         public string RefreshToken { get; set; }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public DateTime ExpiredTime { get; set; }
 
     }

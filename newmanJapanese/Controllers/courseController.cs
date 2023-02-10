@@ -12,6 +12,7 @@ namespace newmanJapanese.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+  
     public class courseController : Controller
     {
         
@@ -19,6 +20,8 @@ namespace newmanJapanese.Controllers
 
         [HttpGet]
         [Route("{user_Id}")]
+        [Authorize]
+
         public IActionResult Getcourse(string user_Id)
         {
             try

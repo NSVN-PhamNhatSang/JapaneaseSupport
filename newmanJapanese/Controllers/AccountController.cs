@@ -11,6 +11,7 @@ using MySqlConnector;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using static System.Net.WebRequestMethods;
 
 namespace JLearning.Controllers
 {
@@ -33,8 +34,8 @@ namespace JLearning.Controllers
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
                 string getAllUser = "Select userId,userName,userPassword from users";
-                IEnumerable<UserLogins> logins = mySQLconnection.Query<UserLogins>(getAllUser);
-
+                IEnumerable<Users> logins = mySQLconnection.Query<Users>(getAllUser);
+                
                 var Token = new UserTokens();
                 var Valid = logins.Any(x =>
                     x.userName.Equals(userLogins.userName, StringComparison.Ordinal)
@@ -42,26 +43,29 @@ namespace JLearning.Controllers
                 );
                 if (Valid)
                 {
-                    var claims = new[]
+                    var user = logins.FirstOrDefault(x =>
+        x.userName.Equals(userLogins.userName, StringComparison.Ordinal)
+        && x.userPassword.Equals(userLogins.userPassword, StringComparison.Ordinal)
+    );
+                    var claims = new []
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, userLogins.userId),
-                        new Claim(JwtRegisteredClaimNames.Jti, userLogins.userName),
+                        new Claim(JwtRegisteredClaimNames.Sub, user?.userName),
+                        new Claim(JwtRegisteredClaimNames.Jti, user?.userId),
                     };
 
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Key").Value));
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456"));
                     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
                     var token = new JwtSecurityToken(
-                        issuer: configuration.GetSection("JwtSettings:Issuer").Value,
-                        audience: configuration.GetSection("JwtSettings:Audience").Value,
+                       // issuer: "https://localhost:7168",
+                       // audience: "https://localhost:7168",
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(30),
+                        expires: DateTime.Now.AddMinutes(1),
                         signingCredentials: creds
                     );
 
                     string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-                    HttpContext.Session.SetString("JWT", tokenString);
+                  //  HttpContext.Session.SetString("JWT", tokenString);
 
                     return Ok(new
                     {

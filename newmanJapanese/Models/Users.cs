@@ -1,27 +1,19 @@
 ﻿namespace JLearning.Models
 {
     public class Users
-    {
-        public Guid userId
+    {   
+        public string userId { get; set; }
+        public string userName
         {
             get;
             set;
         }
-        public string username
+        
+        public string userPassword
         {
             get;
             set;
         }
-      
-        public string password
-        {
-            get;
-            set;
-        }
-        public string name
-        {
-            get;
-            set;
-        }
+       
     }
 }

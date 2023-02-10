@@ -7,19 +7,24 @@ namespace JLearning.Helpers
 {
     public static class JwtHelpers
     {
-        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, Guid Id)
+        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, string Id)
         {
             IEnumerable<Claim> claims = new Claim[] {
-                new Claim("Id", userAccounts.Id.ToString()),
+                new Claim("Id", userAccounts.Id),
                     new Claim(ClaimTypes.Name, userAccounts.UserName),
-                    new Claim(ClaimTypes.NameIdentifier, Id.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, Id),
                     new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(1).ToString("MMM ddd dd yyyy HH:mm:ss tt"))
             };
             return claims;
         }
-        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, out Guid Id)
+        public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, out string Id)
         {
-            Id = Guid.NewGuid();
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            int length = 10;
+            string id = new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+            Id = id;
             return GetClaims(userAccounts, Id);
         }
         public static UserTokens GenTokenkey(UserTokens model, JwtSettings jwtSettings)
@@ -30,7 +35,7 @@ namespace JLearning.Helpers
                 if (model == null) throw new ArgumentException(nameof(model));
                 // Get secret key
                 var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey);
-                Guid Id = Guid.Empty;
+                String Id = Guid.Empty.ToString();
                 DateTime expireTime = DateTime.UtcNow.AddDays(1);
                 UserToken.Validaty = expireTime.TimeOfDay;
                 var JWToken = new JwtSecurityToken(issuer: jwtSettings.ValidIssuer, audience: jwtSettings.ValidAudience, claims: GetClaims(model, out Id), notBefore: new DateTimeOffset(DateTime.Now).DateTime, expires: new DateTimeOffset(expireTime).DateTime, signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256));
