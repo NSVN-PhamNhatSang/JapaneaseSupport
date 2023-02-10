@@ -2,6 +2,8 @@
 using MySqlConnector;
 using Dapper;
 using JLearning.Controllers;
+using GoodFood.api.Models;
+using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.QuickPulse;
 
 namespace newmanJapanese.Controllers
 {
@@ -108,6 +110,73 @@ namespace newmanJapanese.Controllers
             }
             return StatusCode(StatusCodes.Status400BadRequest, "e004");
         }
+
+        [HttpPut]
+        [Route("change/{user_id}")]
+        public IActionResult adminSetUserInfor(string user_id,[FromBody] UserLogins userLogins)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "update users set userName='"+userLogins.userName+"' , userPassword='"+userLogins.userPassword+"' where userId='"+user_id+"'";
+                int rowefec = mySQLconnection.Execute(query);
+                if (rowefec > 0)
+                {
+                    return Ok("Update success");
+                }
+                else
+                {
+                    return BadRequest("something wrong");
+                }
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception e)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e004");
+        }
+        [HttpDelete]
+        [Route("{user_id}")]
+
+        public IActionResult deleteUser(string user_id)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "delete from users where userId='"+user_id+"'";
+                int rowefec = mySQLconnection.Execute(query);
+                if (rowefec > 0)
+                {
+                    return Ok("delete success");
+                }
+                else
+                {
+                    return BadRequest("something wrong");
+                }
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception e)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e004");
+        }
+
 
     }
 }

@@ -178,9 +178,9 @@ namespace JLearning.Controllers
 
                 string query = "update courses set rating="+lasRating +", numberRating="+ (numberOfRatings + 1) + " where courseId='"+course_id+"'";
                 int rowefec = mySQLconnection.Execute(query);
-                if (lasRating> 0)
+                if (rowefec>0)
                 {
-                    return Ok(lasRating);
+                    return Ok(rating);
                 }
                 else
                 {
