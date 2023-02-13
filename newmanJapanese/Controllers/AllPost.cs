@@ -2,5 +2,6 @@
 {
     public class AllPost
     {
+        public string comment { get; set; } 
     }
 }

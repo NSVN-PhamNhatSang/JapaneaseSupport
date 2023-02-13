@@ -45,12 +45,12 @@ namespace JLearning.Controllers
         
         [HttpPut]
         [Route("{comment_id}")]
-        public IActionResult rateWord(string comment_id, [FromBody] string comment)
+        public IActionResult rateWord(string comment_id, [FromBody] AllPost comment)
         { 
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string query = "update comment set commentText='"+comment+"' where commentId='"+comment_id+"'";
+                string query = "update comment set commentText='"+comment.comment+"' where commentId='"+comment_id+"'";
                 int rowefe=mySQLconnection.Execute(query);
                 if(rowefe > 0)
                 {
@@ -80,7 +80,7 @@ namespace JLearning.Controllers
         [HttpPost]
         [Route("{user_id}/{post_id}")]
 
-        public IActionResult Addcomment(string user_id, string post_id, [FromBody] string comment)
+        public IActionResult Addcomment(string user_id, string post_id, [FromBody] AllPost comment)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace JLearning.Controllers
                 parameters.Add("@commentId", commentId);
                 parameters.Add("@postId", post_id);
                 parameters.Add("@userId", user_id);
-                parameters.Add("@commentText", comment);
+                parameters.Add("@commentText", comment.comment);
                 int rowefec = mySQLconnection.Execute(query, parameters);
                 if (rowefec > 0)
                 {

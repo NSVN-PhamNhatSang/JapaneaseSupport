@@ -28,7 +28,7 @@ namespace newmanJapanese.Controllers
             {
 
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getCourse = "select  courses.courseId,courseName,level,category from courses,usercourses,coursedetail where courses.courseId =usercourses.courseId AND coursedetail.courseId=courses.courseId AND userId='"+ user_Id +"' group by courses.courseId";
+                string getCourse = "select  courses.courseId,courseName,level,category from courses,usercourses where courses.courseId =usercourses.courseId AND userId='"+ user_Id +"' group by courses.courseId";
                 IEnumerable<Course> connectDB = mySQLconnection.Query<Course>(getCourse);
 
                 if (connectDB.First<Course>() != null)
@@ -198,11 +198,12 @@ namespace newmanJapanese.Controllers
                 string id = new string(Enumerable.Repeat(chars, length)
                   .Select(s => s[random.Next(s.Length)]).ToArray());
 
-                string query = "insert into words (wordId,wordStatus,wordMean,wordHiragana,example) value (@wordId,@wordStatus,@wordMean,@wordHiragana,@example) ";
+                string query = "insert into words (wordId,wordStatus,wordMean,wordKanji,wordHiragana,example) value (@wordId,@wordStatus,@wordMean,@wordKanji,@wordHiragana,@example) ";
                 var parameters = new DynamicParameters();
                 parameters.Add("@wordId", id);
                 parameters.Add("@wordStatus", word.wordStatus);
                 parameters.Add("@wordMean", word.wordMeaning);
+                parameters.Add("@wordKanji", word.wordKanji);
                 parameters.Add("@wordHiragana", word.wordHiragana);
                 parameters.Add("@example", word.Example);
                 int rowefe = mySQLconnection.Execute(query, parameters);

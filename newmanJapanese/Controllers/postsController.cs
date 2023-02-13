@@ -161,7 +161,7 @@ namespace JLearning.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, "e001");
         }
         [HttpPut]
-        [Route("{course_id}/rating")]
+        [Route("{course_id}/{rating}")]
         public IActionResult updatePost(string course_id,int rating)
         {
             try 
@@ -240,7 +240,41 @@ namespace JLearning.Controllers
 
         }
 
-
+        [HttpPost]
+        [Route("{user_id}/{course_id}")]
+        public IActionResult importCourse(string user_id, string course_id)
+        {
+            try
+            {
+                var mySQLconnection = new MySqlConnection(DatebaseSource.name);
+                string query = "insert into usercourses (userId,courseId) values (@userId,@courseId)";
+                var parameters = new DynamicParameters();
+                parameters.Add("@userId", user_id);
+                parameters.Add("@courseId", course_id);
+                int rowefec = mySQLconnection.Execute(query, parameters);
+                if (rowefec > 0)
+                {
+                    return Ok("Import success");
+                }
+                else
+                {
+                    return BadRequest("something wrong");
+                }
+            }
+            catch (MySqlException mysqlexception)
+            {
+                if (mysqlexception.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "e003");
+                }
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            catch (Exception)
+            {
+                StatusCode(StatusCodes.Status400BadRequest, "e001");
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, "e001");
+        }
 
 
 

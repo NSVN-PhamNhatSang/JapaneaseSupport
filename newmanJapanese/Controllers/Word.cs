@@ -5,6 +5,7 @@
 
         public string wordHiragana { get; set; }
         public string wordMeaning { get; set; }
+        public string wordKanji { get; set; }   
         public string Example   { get; set; }
         public int wordStatus { get; set; }
 
