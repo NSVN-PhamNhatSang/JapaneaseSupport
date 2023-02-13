@@ -1,0 +1,159 @@
+<!-- <nz-layout>
+  <nz-content>
+    <b class="medium-label m-24 p-24">Danh sách các khóa học đang học</b>
+    <div>
+      <div class="learn-list">
+        <div class="gutter-example">
+          <label class="small-label p-24 m-24" for="">Gần đây</label>
+          <div nz-row [nzGutter]="[hGutter, vGutter]" style="padding: 85px">
+            <div
+              nz-col
+              class="gutter-row"
+              [nzSpan]="24 / count"
+              *ngFor="let wordBookDetail of allWordBook"
+            >
+              <a routerLink="../../learn/word-list/" 
+              <a (click)="goToDetailWord(wordBookDetail)">
+                <div class="grid-config">
+                  <div class="course-container">
+                    <div class="course-title">
+                      課題： {{ wordBookDetail.name }}
+                    </div>
+                    <div class="course-total">
+                      Total word ： {{ wordBookDetail.wordList.length }}
+                    </div>
+                    <div class="course-author">
+                      <div class="course-image">
+                        <nz-avatar nzIcon="user"></nz-avatar>
+                      </div>
+                      <div class="course-author__name">
+                        {{ wordBookDetail.name }}
+                      </div>
+                    </div>
+                    <div class="course-rating"></div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="learn-container">
+      ~<router-outlet></router-outlet>
+    </div>
+  </nz-content>
+</nz-layout> -->
+
+
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+      <div class="row container d-flex justify-content-center">
+        <div class="col-xl-6 col-md-12">
+          <div class="card user-card-full">
+            <div class="row m-l-0 m-r-0" style="display : flex ;">
+              <div class="col-sm-4 bg-c-lite-green user-profile" >
+                <div class="card-block text-center text-white small-border" (click)="goToDetailWord('courseX1')" >
+                 
+                  <div class="col-md-4">
+                    <h4 class="text-center text-header"><strong>Bài học khó nhớ</strong></h4>
+                    <hr>
+                    <div class="profile-card-4 text-center"><img src="https://jobsgo.vn/blog/wp-content/uploads/2021/07/5-cach-khoa-hoc-de-tro-nen-thong-minh-hon-1.jpg" class="img img-responsive">
+                        <div class="profile-content">
+                            <div class="profile-description">Bài học này thật sự là rất phức tạp nhỉ ! Nhưng hay cố gắng vì ngày mai. Lập đi lập lại nó rồi bạn sẽ nhớ thôi. Cố gắng lên nào bạn yêu</div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="profile-overview" [(ngModel)]="totalWordX1">
+                                        <p>Tổng số từ vựng</p>
+                                        <h4>{{totalWordX1}}</h4></div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                </div>
+                <div class="card-block text-center text-white small-border" (click)="goToDetailWord('courseX2')">
+                 
+                  <div class="col-md-4">
+                    <h4 class="text-center text-header"><strong>Bài học chưa nhớ</strong></h4>
+                    <hr>
+                    <div class="profile-card-4 text-center"><img src="data:image/png;base64,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" class="img img-responsive">
+                        <div class="profile-content">
+                            <div class="profile-description">Không có việc gì khó chỉ có lòng không bền đào núi và lấp biển chứ dăm ba cái từ ngoại ngữ. Học đi chứ còn chờ gì nữa </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="profile-overview" [(ngModel)]="totalWordX2">
+                                        <p>Tổng số từ vựng</p>
+                                        <h4>{{totalWordX2}}</h4></div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                </div>
+                <div class="card-block text-center text-white small-border" (click)="goToDetailWord('courseX3')">
+                 
+                  <div class="col-md-4">
+                    <h4 class="text-center text-header"><strong>Bài học dễ nhớ </strong></h4>
+                    <hr>
+                    <div class="profile-card-4 text-center"><img src="https://cafefcdn.com/thumb_w/650/2018/8/1/photo1533116910557-15331169105571793219867.png" class="img img-responsive">
+                        <div class="profile-content">
+                            <div class="profile-description">Những từ này nhìn vậy thôi đừng chủ quan hãy cố gắng tập trung và học kỹ nó bạn nhá</div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="profile-overview" [(ngModel)]="totalWordX3">
+                                        <p>Tổng số từ vựng</p>
+                                        <h4>{{totalWordX3}}</h4></div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                </div>
+                <div class="card-block text-center text-white small-border" (click)="goToDetailWord('courseX4')">
+                 
+                  <div class="col-md-4">
+                    <h4 class="text-center text-header"><strong>Bài học đã nhớ</strong></h4>
+                    <hr>
+                    <div class="profile-card-4 text-center"><img src="https://cafefcdn.com/203337114487263232/2020/10/18/photo-1-16030108954752030638696.jpg" class="img img-responsive">
+                        <div class="profile-content">
+        
+                            <div class="profile-description">Những từ vựng này bạn đã nhớ rồi nhưng hãy lặp lại nó theo chu kỳ để nắm vững và áp dụng nhá !</div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="profile-overview" [(ngModel)]="totalWordX4">
+                                        <p>Tổng số từ vựng</p>
+                                        <h4>{{totalWordX4}}</h4></div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                </div>
+              </div>
+              <div class="learn-process small-border ">
+                <div class="process-bar">
+                  <ul class="process">
+                    <li class="process-body body-1">Khó nhớ : {{totalWordX1}}</li>
+                    <li class="process-body body-2">Chưa nhớ : {{totalWordX2}}</li>
+                    <li class="process-body body-3">Dễ nhớ : {{totalWordX3}}<li>
+                    <li class="process-body body-4">Đã nhớ : {{totalWordX4}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+s  

@@ -1,0 +1,43 @@
+<main role="main">
+  
+	<section class="panel important small-border">
+	  <h1>Khóa học của người dùng trên hệ thống</h1>
+	  <ul>
+		<li>Information Panel</li>
+	  </ul>
+	</section>
+	
+	
+	<section class="panel important small-border">
+  <div class="container">
+	<div class="row">
+	  <div class="col-12">
+		<table class="table table-bordered" aria-label="TABLE">
+		  <thead role="rowgroup">
+			<tr role="row">
+			
+			  <th role="columnheader" scope="col">Course Id</th>
+			  <th role="columnheader" scope="col">Course name</th>
+			  <th role="columnheader" scope="col">Course category</th>
+			  <th role="columnheader" scope="col">Course level</th>
+			  <th role="columnheader" scope="col">Course rating</th>
+			</tr>
+		  </thead>
+		  <tbody role="rowgroup" *ngFor="let data of listCourse">
+			<tr role="row">
+			  <td>{{data.courseId}}</td>
+			  <td>{{data.courseName}}</td>
+			  <td>{{data.category}}</td>
+			  <td>{{data.level}}</td>
+			  <td>{{data.rating}}</td>
+  
+			</tr>
+		  </tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+			</section>
+	   
+			
+  </main>

@@ -1,0 +1,134 @@
+<!-- <nz-layout>
+  <nz-content>
+    <b>Danh sách các khóa học đang học</b>
+    <div>
+      Khóa học 1
+      <div class="learn-list">
+        <div class="gutter-example">
+          <label for="">Gần đây</label>
+          <div nz-row [nzGutter]="[hGutter, vGutter]" style="padding: 85px">
+            <div
+              nz-col
+              class="gutter-row"
+              [nzSpan]="24 / count"
+              *ngFor="let wordBookDetail of allWordBook"
+            >
+              <a routerLink="../../learn/word-list/" ></a>
+              <a (click)="goToDetailWord(wordBookDetail)">
+                <div class="grid-config">
+                  <div class="course-container">
+                    <div class="course-title">
+                      課題： {{ wordBookDetail.name }}
+                    </div>
+                    <div class="course-total">
+                      Total word ： {{ wordBookDetail.name }}
+                    </div>
+                    <div class="course-author">
+                      <div class="course-image">
+                        <nz-avatar nzIcon="user"></nz-avatar>
+                      </div>
+                      <div class="course-author__name">
+                        {{ wordBookDetail.name }}
+                      </div>
+                    </div>
+                    <div class="course-rating"></div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="learn-container">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+</nz-layout> -->
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+      <div class="row container d-flex justify-content-center">
+        <div class="col-xl-6 col-md-12">
+          <div class="card user-card-full">
+            <div class="row m-l-0 m-r-0" >
+              <div class="course-header">
+                <h1>Sổ tay của tôi</h1>
+              </div>
+              <div class="course-body">
+                  <div class="course-body__container" *ngFor="let wordBookDetail of allWordBook">
+                    <!-- <a routerLink="../../learn/word-list/" ></a> -->
+                    <div class="course-content" (click)="goToDetailWord(wordBookDetail.courseId)">
+                      <div class="coure-card">
+                        <div class="course-container">
+                          <div class="course-title">
+                            Course theme： {{ wordBookDetail.courseName }}
+                          </div>
+                          <div class="course-total">
+                            Course Level ： <br/>{{ wordBookDetail.level }}
+                          </div>
+                          <div class="course-total">
+                            Course Category ：<br/> {{ wordBookDetail.category }}
+                          </div>
+                          <div class="course-author">
+                            <div class="course-image">
+                              <nz-avatar nzIcon="user"></nz-avatar>
+                            </div>
+                            <div class="course-author__name">
+                              {{ wordBookDetail.name }}
+                            </div>
+                          </div>
+                          <div class="course-rating"></div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                        <div class="course-delete"><i class="fa-solid fa-xmark" (click)="deleteCourse(wordBookDetail)"></i></div>
+                  </div>
+                  <div class="course-body__container" *ngIf="isVisible === true">
+                    <!-- <a routerLink="../../learn/word-list/" ></a> -->
+                   
+                     <div class="course-content" >
+                       <div class="coure-card">
+                        <form action="" [formGroup] = "courseForm" >
+                         <div class="course-container">
+                           <div class="course-title">
+                             Name： 
+                             <input id="name" formControlName="name" [(ngModel)]="Name"   type="text" required>
+                            
+                           </div>
+                           <div class="course-total">
+                             Category :<br/>
+                             <input formControlName="category" [(ngModel)] = "Category" type="text" required>
+                           </div>
+                           <div class="course-author">
+                             
+                             <div class="course-author__name">
+                               Level:<br/>
+                               <input formControlName="level" [(ngModel)]="Level" type="text" required>
+                             </div>
+                           </div>
+  
+                         </div>
+                        </form>
+                        <div class="error-message" *ngIf="courseForm.invalid">*Hãy nhập đầy đủ các trường vào rồi ấn lưu</div>
+                       </div>
+                       
+                     </div>
+                 
+                    <div class="course-delete"><i class="fa-solid fa-xmark" (click)="closeModal()"></i></div>
+                  </div>
+                  
+              </div>
+            </div>
+          </div>
+          <div class="add_course " >
+            <button (click)="onClickAddCourse()">Thêm khóa học</button>
+            <button *ngIf="isVisible === true" type="submit" [disabled]="!courseForm.valid" (click)="onClickSubmit()">Lưu khóa học</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  

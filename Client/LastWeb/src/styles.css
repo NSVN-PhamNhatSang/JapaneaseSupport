@@ -1,0 +1,231 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+* {
+    /* font-family:Arial, Helvetica, sans-serif !important; */
+  }
+  @import '~@fortawesome/fontawesome-free/css/all.css';
+
+  :root {
+    --primary-color: #52c41a;
+    --secondary-color: #1890ff;
+    /* --header-height: 120px;
+    --navbar-height: 34px;
+    --header-with-search-height: calc(var(--header-height) - var(--navbar-height)); */
+  }
+  
+   /* --------- Border ---------  */
+  
+  .small-border {
+    border-radius: 12px;
+      background-color: #fff;
+      /* border-color: #eaeaea61 ; */
+      box-shadow: 0px 0px 10px 0px #888888 !important;   
+  }
+  
+  .highlight-border--green {
+    border-radius: 12px;
+    border-style: solid;
+    border-color: #52c41a;
+    border-width: 8px;
+  }
+  
+  .highlight-border--blue {
+    border-radius: 12px;
+    border-style: solid;
+    border-color: #1890ff;
+    border-width: 8px;
+  }
+  
+  .divider__solid {
+      border-top: 1px solid grey;
+      width: 100%;
+   }
+  /* Container */
+  .container{
+    width: 100%;
+   
+    /* height: 100%;   */
+  }
+  .dashboard-container {
+    -webkit-background-size: cover;  
+    -moz-background-size: cover;  
+    -o-background-size: cover;  
+    background-size: cover;
+    padding-top: 40px;
+    /* background-color: #eeeded; */
+    display: flex;
+    flex-direction: row;
+    padding: 0px 150px;
+  }
+   /* --------- Margin, padding ---------  */
+   .m-12 {
+    margin: 12px !important;
+   }
+  
+   .mt-12 {
+    margin-top: 12px !important;
+   }
+  
+   .mr-12 {
+    margin-right: 12px !important;
+   }
+  
+   .mb-12 {
+    margin-bottom: 12px !important;
+   }
+  
+   .ml-12 {
+    margin-left: 12px !important;
+   }
+  
+   .p-12 {
+    padding: 12px !important;
+   }
+  
+   .pt-12 {
+    padding-top: 12px !important;
+   }
+  
+   .pr-12 {
+    padding-right: 12px !important;
+   }
+  
+   .pb-12 {
+    padding-bottom: 12px !important;
+   }
+  
+   .pl-12 {
+    padding-left: 12px !important;
+   }
+  
+   .m-16 {
+    margin: 16px !important;
+   }
+  
+   .mt-16 {
+    margin-top: 16px !important;
+   }
+  
+   .mr-16 {
+    margin-right: 16px !important;
+   }
+  
+   .mb-16 {
+    margin-bottom: 16px !important;
+   }
+  
+   .ml-16 {
+    margin-left: 16px !important;
+   }
+  
+   .p-16 {
+    padding: 16px !important;
+   }
+  
+   .pt-16 {
+    padding-top: 16px !important;
+   }
+  
+   .pr-16 {
+    padding-right: 16px !important;
+   }
+  
+   .pb-16 {
+    padding-bottom: 16px !important;
+   }
+  
+   .pl-16 {
+    padding-left: 16px !important;
+   }
+  
+   .m-24 {
+    margin: 24px !important;
+   }
+  
+   .mt-24 {
+    margin-top: 24px !important;
+   }
+  
+   .mr-24 {
+    margin-right: 24px !important;
+   }
+  
+   .mb-24 {
+    margin-bottom: 24px !important;
+   }
+  
+   .ml-24 {
+    margin-left: 24px !important;
+   }
+  
+   .p-24 {
+    padding: 24px !important;
+   }
+  
+   .pt-24 {
+    padding-top: 24px !important;
+   }
+  
+   .pr-24 {
+    padding-right: 24px !important;
+   }
+  
+   .pb-24 {
+    padding-bottom: 24px !important;
+   }
+  
+   .pl-24 {
+    padding-left: 24px !important;
+   }
+  
+  
+   /* --------- Width ---------  */
+  
+  
+   .w-50 {
+    width: 50% !important;
+   }
+  
+   .w-80 {
+    width: 80% !important;
+   }
+  
+   .w-100 {
+    width: 100% !important;
+   }
+  
+   /* --------- Label ---------  */
+   .small-label {
+    font-size: 16px;
+    font-weight: 700;
+   }
+  
+   .medium-label {
+    font-size: 20px;
+    font-weight: 600;
+   }
+  
+   /* --------- Align ---------  */
+  .text-center {
+    text-align: center !important;
+  }
+  
+   /* --------- Flex ---------  */
+  .flr {
+    display: flex !important;
+    flex-direction: row;
+  }
+  
+  .flc {
+    display: flex !important;
+    flex-direction: column;
+  }
+  
+  .f-align-stretch {
+    align-items: stretch !important;
+  }
+  
+  /* .ant-progress-status-success .ant-progress-bg {
+    background-color: red;
+  } */
+  

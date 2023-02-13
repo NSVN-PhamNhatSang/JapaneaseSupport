@@ -1,0 +1,90 @@
+
+/* Setting */
+.setting-menu__container {
+    background-color: #fff;  ;
+  }
+  
+  .detail-learn {
+    /* align-items: center; */
+    /* justify-content: stretch; */
+  }
+  
+  .new-word {
+    font-size: 50px;
+    padding: 12px;
+  }
+  
+  .word__meaning {
+    font-size: 50px;
+    padding: 12px;
+  }
+  
+  .next-button {
+    /* margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 12px;
+    background-color: aquamarine;
+    border-radius: 12px;
+    border-style: solid;
+    border-color: black; */
+  }
+  
+  .setting-row {
+    margin-bottom: 12px;
+  
+  }
+  
+  .learn__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .learn__confirm {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .reaction__list {
+    /* display: flex;
+    flex-direction: row;
+    justify-content: start; */
+    width: 100%;
+  
+  }
+  
+  .reaction__button {
+    width: 120px;
+    height: 40px;
+    border-radius: 8px;
+  }
+  
+  .reaction__button--done {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  .reaction__button--done:hover {
+    background-color: #8ed26d;
+    border-color: #8ed26d;
+  }
+  
+  .reaction__button--zero {
+  
+  }
+  
+  .reaction__button--hard {
+    background-color: #ff9800;
+    border-color: #ff9800;
+  }
+  
+  .reaction__button--hard:hover {
+    background-color: #ffb84f;
+    border-color: #ffb84f;
+  }
+  
+  .reaction__button--easy {
+  
+  }
+  

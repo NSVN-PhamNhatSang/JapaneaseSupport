@@ -1,0 +1,49 @@
+
+    <!-- partial:index.partial.html -->
+    <div class="box-form">
+        <div class="left">
+          <div class="overlay">
+            <h1>Japanese Support</h1>
+            <p>
+              Cải thiện tiếng Nhật mỗi ngày với chúng tôi
+            </p>
+            
+          </div>
+        </div>
+        
+        <div class="right">
+          <h5>Login</h5>
+          <p>
+            Don't have an account? <a routerLink="../register" >Creat Your Account</a> it takes
+            less than a minute
+          </p>
+          
+          <div class="inputs">
+            <form  [formGroup]="loginForm">
+              <input type="text" placeholder="user name" formControlName="userName" />
+              <small>*Username is required</small>
+              <br />
+              <input type="password" placeholder="password" formControlName="userPassword" />
+              <!-- <span (click)="hideShowPass()" class=""fa {{eyeIcon}}></span> -->
+              <small>*password is required</small>
+            </form>
+            </div>
+            
+            <br /><br />
+            
+            <div class="remember-me--forget-password">
+              <!-- Angular -->
+              <label>
+                <input type="checkbox" name="item" checked />
+                <span class="text-checkbox">Remember me</span>
+              </label>
+              <p>forget password?</p>
+            </div>
+  
+          <br />
+          <button (click)="onLogin()" type="submit"  >Login</button>
+        </div>
+      </div>
+      <!-- partial -->
+  
+  
