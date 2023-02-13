@@ -1,0 +1,150 @@
+.container{
+  width: 100%;
+  height: 100%;
+}
+.dashboard-container {
+  -webkit-background-size: cover;  
+  -moz-background-size: cover;  
+  -o-background-size: cover;  
+  background-size: cover;
+  padding-top: 40px;
+  /* background-color: #eeeded; */
+  display: flex;
+  flex-direction: row;
+  padding: 0px 150px;
+}
+
+.left-sidebar {
+  flex-basis: 25%;
+}
+
+.main-content {
+  flex-basis: 75%;
+}
+
+.rank__label {
+  margin-top: 12px;
+}
+
+.rank__body {
+  margin: 12px;
+}
+/* 
+.rank-container .rank-users__list {
+  overflow: scroll;
+  height: 520px;
+} */
+
+.rank-container {
+  /* background-color: antiquewhite; */
+  display: flex;
+  flex-direction: column;
+}
+.rank-medal{
+  height: 28px;
+  /* padding: 0px 3px; */
+  position: absolute;
+  left: 119px;
+  z-index: 2;
+  margin-top: 9px;
+}
+.rank__label {
+  /* width: 100%; */
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.rank__body {
+  /* display: flex;
+  flex-direction: row; */
+}
+
+.rank-users__detail {
+  display: flex;
+    flex-direction: row;
+    margin: 5px;
+   
+    align-items: center;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+.rank-users__detail:nth-child(.rank-users__detail:nth-child(odd)) {
+  background-color: gray ;
+}
+.rank-number {
+  flex-basis: 10%;
+  font-weight: 700;
+}
+
+.user-avatar {
+  flex-basis: 25%;
+  border-radius: 50%;
+}
+
+.user-name {
+  flex-basis: 55%;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-word {
+  flex-basis: 10%;
+  color: gray;
+}
+.user-avatar img{
+  width:40px;
+  height: 40px;
+  position: relative;
+
+}
+/* main */
+
+/* achievement-summary */
+.achievement-summary{
+  background-color: #fff;
+}
+
+.achievement-summary .achievement__img img {
+  height: 100px;
+  width: 100px;
+}
+
+.achievement-summary .achievement__list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.achievement-summary .achievement__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+/* day-summary */
+.day-summary .day-summary__progress .progress__body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.day-summary .day-summary__progress .progress__line {
+  flex-basis: 70%;
+}
+
+.day-summary .day-summary__progress .progress__text {
+  flex-basis: 25%;
+}
+
+.motivation {
+  font-weight: 600;
+}
+/* footer */
+@media (max-width : 1240px) {
+  .dashboard-container{
+    display: flow-root ;
+  }
+}

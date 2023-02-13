@@ -1,0 +1,25 @@
+<div class="flip-card">
+    <div class="Word_container flip-card-inner">
+      <div class="flip-card-front">
+        <div class="Word_header">
+          <div class="Word_type">Từ mới</div>
+          <div class="Word_index">{{dataClick.wordId}}</div>
+          <div class="word_highligh"><i class="fas fa-star"></i></div>
+        </div>
+        <div class="Word_body">
+          <h1>{{ dataClick?.wordHiragana }}</h1>
+        </div>
+      </div>
+      <div class="flip-card-back">
+        <div class="Word_header">
+          <div class="Word_type">Ý nghĩa</div>
+          <div class="Word_index">{{dataClick.wordId}}</div>
+          <div class="word_highligh"><i class="fas fa-star"></i></div>
+        </div>
+        <div class="Word_body">
+          <h1>{{ dataClick?.wordMean }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  

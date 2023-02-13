@@ -1,0 +1,137 @@
+<div class="container">
+
+    <div class="dashboard-container">
+      <div class="left-sidebar mt-12">
+        <div class="rank-container small-border m-12">
+          <div class="rank__label">Top người học trên web  </div>
+          <hr class="divider__solid" />
+          <div class="rank__body">
+            <div class="rank-users__list">
+              <div
+              class="rank-users__detail small-border"
+              *ngFor="let rankUser of listRankUser; let i = index;"
+              >
+              <div class="rank-number">{{ i + 1 }}</div>
+              <div class="rank-medal" *ngFor = "let rankMedal of listMedal">
+                  <div *ngIf="rankMedal.rank === i+1" >
+  
+                    <img class="rank-medal" [src]="rankMedal.image" alt="">
+                  </div>
+              </div>
+              <div class="user-avatar">
+                <img src="data:image/jpeg;base64,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" alt="" height="50" />
+              </div>
+              <div class="user-name">{{ rankUser.name }}</div>
+              <div class="user-word">{{ rankUser.word }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-content m-12">
+      <div class="achievement-summary small-border mt-12 p-12 w-100">
+        <div class="achievement-summary__label medium-label text-center mb-16">
+          Thành tựu
+        </div>
+        <div class="achievement__list">
+          <div
+          class="achievement__detail"
+          *ngFor="let achievement of listAchievement"
+          >
+          <div class="achievement__img">
+            <img [src]="achievement.imageUrl" alt="" />
+          </div>
+          <div class="achievement__name small-label">
+            {{ achievement.name }}
+          </div>
+            <div class="achievement__date">{{ achievement.date }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="summary-row-first flr mt-24">
+        <div class="day-summary small-border p-12 w-50 mr-12">
+          <div class="day-summary__header">
+            <div class="day-summary__label medium-label">
+              Tổng kết từ vựng hôm nay
+            </div>
+          </div>
+          <div class="day-summary__body">
+            <div class="day-summary__progress">
+              <div class="progress__header small-label">Mục tiêu</div>
+              <div class="progress__detail">
+                Bạn đã hoàn thành 25% mục tiêu hôm nay
+              </div>
+              <div class="progress__body">
+                <nz-progress
+                class="progress__line w-80"
+                [nzPercent]="50 / 2"
+                [nzShowInfo]="false"
+                ></nz-progress>
+                <div class="progress__text">12/50 từ</div>
+              </div>
+            </div>
+            <div class="day-summary__efficiency">
+              <div class="efficiency__header small-label">Hiệu suất</div>
+            </div>
+            <div class="efficiency__body flr">
+              <div class="body__graph mr-12">
+                <nz-progress
+                nz-tooltip
+                nzTitle="3 done / 3 in progress / 4 to do"
+                nzType="dashboard"
+                [nzPercent]="60"
+                [nzSuccessPercent]="30"
+                ></nz-progress>
+              </div>
+              <div class="body__description ml-12">
+                <div nz-row nzGutter="8">
+                  <div nz-col nzSpan="4">
+                    <nz-progress
+                    class="graph__detail--blue w-50"
+                    [nzPercent]="99"
+                    [nzShowInfo]="false"
+                    ></nz-progress>
+                  </div>
+                  <div nz-col nzSpan="20">Số từ đã học hôm qua</div>
+                </div>
+                
+                <div nz-row nzGutter="8">
+                  <div nz-col nzSpan="4">
+                    <nz-progress
+                    class="w-50"
+                    [nzPercent]="100"
+                    [nzShowInfo]="false"
+                    ></nz-progress>
+                  </div>
+                  <div nz-col nzSpan="20">Số từ đã học hôm nay</div>
+                </div>
+              </div>
+            </div>
+            <div class="motivation mt-12">
+              <p>
+                Chỉ cần học thêm 12 từ nữa bạn sẽ chiến thắng bản thân mình của
+                ngày hôm qua.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="week-summary small-border p-12 w-50 ml-12">
+          <div class="week-summary__header">
+            <div class="week-summary__label medium-label">
+              Tổng kết từ vựng 7 ngày gần nhất
+            </div>
+          </div>
+          <div class="week-summary__body">
+            <div class="week-summary__progress">
+              <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+            </div>
+            Bạn đã học được nhiều hơn 15 từ
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  </div>

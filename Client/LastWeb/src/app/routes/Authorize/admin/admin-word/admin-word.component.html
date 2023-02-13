@@ -1,0 +1,43 @@
+<main role="main">
+  
+  <section class="panel important small-border">
+    <h1>Từ vựng của người dùng trên hệ thống</h1>
+    <ul>
+      <li>Information Panel</li>
+    </ul>
+  </section>
+  
+  
+  <section class="panel important small-border">
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered" aria-label="TABLE">
+        <thead role="rowgroup">
+          <tr role="row">
+          
+            <th role="columnheader" scope="col">Word Id</th>
+            <th role="columnheader" scope="col">Word Status</th>
+            <th role="columnheader" scope="col">Word mean</th>
+            <th role="columnheader" scope="col">Word Hiragana</th>
+            <th role="columnheader" scope="col">Word Kanji</th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup" *ngFor="let data of listWord">
+          <tr role="row">
+            <td>{{data.wordId}}</td>
+            <td>{{data.wordStatus}}</td>
+            <td>{{data.wordMean}}</td>
+            <td>{{data.wordHiragana}}</td>
+            <td>{{data.wordKanji}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+          </section>
+     
+          
+</main>
