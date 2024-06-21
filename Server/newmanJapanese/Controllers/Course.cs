@@ -1,14 +1,21 @@
 ﻿namespace newmanJapanese.Controllers
 {
-    public class Course
-    {
-        public string courseId { get; set; }
-        public string courseName { get; set; }
-        public string level { set; get; }
-        public string category { get; set; }
-        //public double rating { get; set; }
-       // public  int totalLearned { get; set; }
-        //public int courseStatus { get; set; }
-       //public  int totalWordLearned { set; get; }
+public class Course
+{
+    public string CourseId { get; set; }
+    public string CourseName { get; set; }
+    public double? Rating { get; set; }
+    public List<string> Category { get; set; } 
+    public DateTime? CreatedAt { get; set; }
+    public string CreatorId { get; set; }
+    public int Progress { get; set; }
+    public int CurrentWord { get; set; }
+    public int CoursePoint { get; set; }
+    public int Level {  get; set; }
+    public int TotalWord { get; set; }
+        public double? CourseNote { get; set; }
+        public string CreatorName { get; set; }
+    public string CreatorImgUrl { get; set; } 
     }
+
 }

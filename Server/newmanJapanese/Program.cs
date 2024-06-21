@@ -1,11 +1,25 @@
 using JLearning.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Session;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using JLearning.Repository;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using JLearning;
+using System.Globalization;
+using JLearning.Data;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using JLearning.Interfaces;
+using JLearning.Services;
+using JLearning.Models;
+using newmanJapanese.Controllers;
+using Autofac.Core;
+using JLearning.Repositories;
+using static JLearning.Repositories.UserCourseRepository;
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "AllowAllOrigins";
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
+builder.Configuration.Bind("GoogleCloud", new GoogleCloudSetting());
+builder.Services.Configure<GoogleCloudSetting>(builder.Configuration.GetSection("GoogleCloud"));
 //builder.Services.AddSession();
 builder.Services.AddCors(options =>
 {
@@ -44,34 +58,28 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
-/*builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("64A63153 - 11C1 - 4919 - 9133 - EFAF99A9B456")),
-        ValidateIssuer = false,
-        ValidateAudience = false
-        // ClockSkew = TimeSpan.FromDays(1),
-    };
-});*/
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<WebContext>(options =>
 
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+    
+) ;
+
+// Add services to the container
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUserCourseRepository, UserCoursesRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IUserDetailRepository, UserDetailRepository>();
+//builder.Services.AddScoped<User,usersController>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-app.UseAuthorization();
+app.UseAuthorization(); 
 
 app.MapControllers();
 //app.UseSession();

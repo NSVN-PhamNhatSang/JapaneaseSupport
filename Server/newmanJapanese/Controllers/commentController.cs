@@ -16,7 +16,7 @@ namespace JLearning.Controllers
             try
             {
                 var mySQLconnection = new MySqlConnection(DatebaseSource.name);
-                string getListnotebook = "Select commentId,commentText,userId from comment where postId='" + post_id + "'";
+                string getListnotebook = "Select commentId,commentText,comment.userId, users.userName,users.ImgUrl from comment join users on comment.userId = users.userId  where postId='" + post_id + "'";
                 var ListnoteBook = mySQLconnection.Query<Comment>(getListnotebook);
                 if (ListnoteBook.First<Comment>() != null)
                 {
